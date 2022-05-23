@@ -23,5 +23,8 @@ class ProductPage(BasePage):
         buy_book_price = self.browser.find_element(*ProductPageLocators.BUY_BOOK_PRICE).text
         assert book_price == buy_book_price, f'Что-то не так с ценой.. Было: {book_price}, стало: {buy_book_price}'
 
-    def test_guest_can_add_product_to_basket(self, link):
-        pass
+    # def test_guest_can_add_product_to_basket(self, link):
+    #    pass
+
+    # def test_guest_cant_see_success_message_after_adding_product_to_basket(self):
+    #    assert self.is_not_element_present(*ProductPageLocators.BUY_BOOK)
