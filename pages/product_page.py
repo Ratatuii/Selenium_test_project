@@ -1,5 +1,6 @@
 from .base_page import BasePage
 from .locators import ProductPageLocators
+import pytest
 
 
 class ProductPage(BasePage):
@@ -7,6 +8,7 @@ class ProductPage(BasePage):
     def go_to_login_page(self):
         self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET).click()
 
+    @pytest.mark.xfail
     def check_price_and_title_book(self):
         self.check_book()
         self.check_price()
@@ -20,3 +22,6 @@ class ProductPage(BasePage):
         book_price = self.browser.find_element(*ProductPageLocators.BOOK_PRICE).text
         buy_book_price = self.browser.find_element(*ProductPageLocators.BUY_BOOK_PRICE).text
         assert book_price == buy_book_price, f'Что-то не так с ценой.. Было: {book_price}, стало: {buy_book_price}'
+
+    def test_guest_can_add_product_to_basket(self, link):
+        pass
