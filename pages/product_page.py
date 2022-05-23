@@ -5,7 +5,7 @@ import pytest
 
 class ProductPage(BasePage):
 
-    def go_to_login_page(self):
+    def add_item_to_basket_and_click(self):
         self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET).click()
 
     @pytest.mark.xfail
@@ -23,8 +23,8 @@ class ProductPage(BasePage):
         buy_book_price = self.browser.find_element(*ProductPageLocators.BUY_BOOK_PRICE).text
         assert book_price == buy_book_price, f'Что-то не так с ценой.. Было: {book_price}, стало: {buy_book_price}'
 
-    # def test_guest_can_add_product_to_basket(self, link):
-    #    pass
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), 'Ошибка, сообщение есть!'
 
-    # def test_guest_cant_see_success_message_after_adding_product_to_basket(self):
-    #    assert self.is_not_element_present(*ProductPageLocators.BUY_BOOK)
+    def should_dissapear_of_success_message(self):
+        assert self.is_disappeared(*ProductPageLocators.SUCCESS_MESSAGE), 'Ошибка, сообщение не исчезает!'

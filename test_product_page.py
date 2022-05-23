@@ -8,17 +8,42 @@ links_list = ["https://selenium1py.pythonanywhere.com/catalogue/coders-at-work_2
               "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer4",
               "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer5",
               "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer6",
-               pytest.param("http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7", marks=pytest.mark.xfail),
+              pytest.param("http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7",
+                           marks=pytest.mark.xfail),
               "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer8",
               "https://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer9"]
 
 
-@pytest.mark.parametrize('links', links_list,)
-def test_guest_can_add_to_basket(browser, links):
+@pytest.mark.skip
+@pytest.mark.parametrize('links', links_list, )
+def test_guest_can_add_to_basket(browser, links):  # links - добавить второй аргумент
     # link = "https://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear"
-    # link = 'https://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019'
+    # link = 'https://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear'
     page = ProductPage(browser, links)
     page.open()
-    page.go_to_login_page()
+    page.add_item_to_basket_and_click()
     page.solve_quiz_and_get_code()
     page.check_price_and_title_book()
+
+
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+    link = 'https://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_item_to_basket_and_click()
+    page.should_not_be_success_message()
+
+
+def test_guest_cant_see_success_message(browser):
+    link = 'https://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_not_be_success_message()
+
+
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    link = 'https://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_item_to_basket_and_click()
+    page.should_dissapear_of_success_message()
